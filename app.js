@@ -6,8 +6,12 @@ var live = require('./live/routes/live')
 var user = require('./user/routes/user')
 var streammer = require('./user/routes/roles/streammer')
 var viewer = require('./user/routes/roles/viewer')
+const bodyParser = require('body-parser');
 
 const app = express()
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.use('/bet', bet)
 app.use('/calendar', calendar)
 app.use('/complaint', complaint)
