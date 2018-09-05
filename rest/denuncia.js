@@ -1,10 +1,12 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/denuncia', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Denuncias Request!')
 })
 
-app.post('/denuncia/:id', function (req, res) {
+router.post('/:id', function (req, res) {
     res.send('Post Denuncia Request!')
 })
+
+module.exports = router

@@ -1,10 +1,12 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/calendario', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Calendarios Request!')
 })
 
-app.post('/calendario/:id', function (req, res) {
+router.post('/:id', function (req, res) {
     res.send('Post Calendario Request!')
 })
+
+module.exports = router

@@ -1,18 +1,20 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/live', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Lives Request!')
 })
 
-app.get('/live/:id', function (req, res) {
+router.get('/:id', function (req, res) {
     res.send('Get Live Request!')
 })
 
-app.get('/live/:id/aposta', function (req, res) {
+router.get('/:id/aposta', function (req, res) {
     res.send('Get Aposta from Live Request!')
 })
 
-app.post('/live', function (req, res) {
+router.post('/', function (req, res) {
     res.send('Post Live Request!')
 })
+
+module.exports = router

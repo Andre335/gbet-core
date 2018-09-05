@@ -1,18 +1,20 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/streammer', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Streammers Request!')
 })
 
-app.get('/streammer/:id', function (req, res) {
+router.get('/:id', function (req, res) {
     res.send('Get Streammer Request!')
 })
 
-app.get('/streammer/:id/denuncia', function (req, res) {
+router.get('/:id/denuncia', function (req, res) {
     res.send('Get User Denuncia Request!')
 })
 
-app.get('/streammer/:id/calendario', function (req, res) {
-    res.send('Get Users Request!')
+router.get('/:id/calendario', function (req, res) {
+    res.send('Get Streammer Calendario Request!')
 })
+
+module.exports = router

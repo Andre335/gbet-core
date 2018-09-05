@@ -1,8 +1,19 @@
 const express = require('express')
-const app = express()
+var aposta = require('./rest/aposta')
+var calendario = require('./rest/calendario')
+var denuncia = require('./rest/denuncia')
+var live = require('./rest/live')
+var user = require('./rest/user')
+var streammer = require('./rest/roles/streammer')
+var viewer = require('./rest/roles/viewer')
 
-app.get('/', function (req, res) {
-    res.send('Hello World!')
-})
+const app = express()
+app.use('/aposta', aposta)
+app.use('/calendario', calendario)
+app.use('/denuncia', denuncia)
+app.use('/live', live)
+app.use('/user', user)
+app.use('/streammer', streammer)
+app.use('/viewer', viewer)
 
 app.listen(3000, () => console.log('Server started...'))

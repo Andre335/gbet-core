@@ -1,18 +1,20 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/viewer', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Viewers Request!')
 })
 
-app.get('/viewer/:id', function (req, res) {
+router.get('/:id', function (req, res) {
     res.send('Get Viewer Request!')
 })
 
-app.get('/viewer/:id/denuncia', function (req, res) {
+router.get('/:id/denuncia', function (req, res) {
     res.send('Get User Denuncia Request!')
 })
 
-app.get('/viewer/:id/calendario', function (req, res) {
-    res.send('Get Users Request!')
+router.get('/:id/calendario', function (req, res) {
+    res.send('Get Viewer Calendario Request!')
 })
+
+module.exports = router

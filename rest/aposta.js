@@ -1,10 +1,12 @@
 const express = require('express')
-const app = express()
+var router = express.Router()
 
-app.get('/aposta', function (req, res) {
+router.get('/', function (req, res) {
     res.send('Get Apostas Request!')
 })
 
-app.post('/aposta', function (req, res) {
+router.post('/', function (req, res) {
     res.send('Post Aposta Request!')
 })
+
+module.exports = router
