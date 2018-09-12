@@ -10,8 +10,6 @@ var morgan = require('morgan');
 var path = require('path');
 var rfs = require('rotating-file-stream');
 var fs = require('fs');
-// var mongoose = require('mongoose');
-// var mongoMemory = require('mongodb-memory-server');
 
 const bodyParser = require('body-parser');
 const app = express();
@@ -31,25 +29,6 @@ var accessLogStream = rfs('access.log', {
 });
 
 app.use(morgan('combined', { stream: accessLogStream }));
-
-// const mongoServer = mongoMemory.MongodbMemoryServer();
-// mongoose.Promise = Promise;
-// mongoServer.getConnectionString().then((mongoUri) => {
-//     const mongooseOpts = {
-//         autoReconnect: true,
-//         reconnectTries: Number.MAX_VALUE,
-//         reconnectInterval: 1000,
-//     };
-// });
-// mongoose.connect(mongoUri, mongooseOpts);
-
-// mongoose.connect('mongodb://localhost/test');
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Connection error:'));
-// db.once('open', function() {
-//   // we're connected!
-//   console.log('Connection to the database estabilished!');
-// });
 
 app.use('/bet', bet);
 app.use('/calendar', calendar);

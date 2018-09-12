@@ -4,11 +4,13 @@ var router = express.Router()
 
 router.get('/', User.findAll)
 
-router.get('/:id', function (req, res) {
-    res.send('Get User Request!')
-})
+router.get('/:id', User.findOne)
 
 router.post('/', User.create)
+
+router.delete('/:id', User.deleteById)
+
+router.put('/:id', User.update)
 
 router.get('/:id/denuncia', function (req, res) {
     res.send('Get User Denuncia Request!')
