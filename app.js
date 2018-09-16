@@ -1,8 +1,8 @@
 const express = require('express');
-var bet = require('./bet/routes/bet');
-var calendar = require('./calendar/routes/calendar');
-var complaint = require('./complaint/routes/complaint');
-var live = require('./live/routes/live');
+var bet = require('./bet/bet.routes');
+var calendar = require('./calendar/calendar.routes');
+var complaint = require('./complaint/complaint.routes');
+var live = require('./live/live.routes');
 var user = require('./user/routes/user');
 var streammer = require('./user/routes/roles/streammer');
 var viewer = require('./user/routes/roles/viewer');
@@ -10,6 +10,9 @@ var morgan = require('morgan');
 var path = require('path');
 var rfs = require('rotating-file-stream');
 var fs = require('fs');
+let mongoose = require('mongoose');
+
+mongoose.connect('mongodb://angoncal:Andre95153565@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
 
 const bodyParser = require('body-parser');
 const app = express();

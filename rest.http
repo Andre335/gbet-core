@@ -2,19 +2,20 @@ POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "John1",
-    "lastName": "Doe1",
-    "role": "admin"
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "admin",
+    "email": "john@doe.com"
 }
 
 ###
 
-PUT http://localhost:3000/user/5b994d6c75d759611d90c585 HTTP/1.1
+PUT http://localhost:3000/user/5b9de03d7357d27fe8c98bf9 HTTP/1.1
 content-type: application/json
 
 {
     "firstName": "John",
-    "lastName": "Modified3",
+    "lastName": "Modified",
     "role": "admin"
 }
 
@@ -24,8 +25,8 @@ GET http://localhost:3000/user HTTP/1.1
 
 ###
 
-GET http://localhost:3000/user/5b994d6c75d759611d90c585 HTTP/1.1
+GET http://localhost:3000/user/5b9ddee1763c327e9ef0c834 HTTP/1.1
 
 ###
 
-DELETE http://localhost:3000/user/5b994bd07896c95daed66b03 HTTP/1.1
+DELETE http://localhost:3000/user/5b9de03d7357d27fe8c98bf9 HTTP/1.1
