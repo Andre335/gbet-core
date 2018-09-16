@@ -1,7 +1,7 @@
 'use strict'
 let mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/production', { useNewUrlParser: true });
+mongoose.connect('mongodb://angoncal:Andre95153565@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
 
 var Schema = mongoose.Schema;
 
