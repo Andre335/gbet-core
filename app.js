@@ -10,7 +10,7 @@ var morgan = require('morgan');
 var path = require('path');
 var rfs = require('rotating-file-stream');
 var fs = require('fs');
-let mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://angoncal:Andre95153565@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
 
