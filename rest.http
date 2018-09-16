@@ -4,7 +4,8 @@ content-type: application/json
 {
     "firstName": "John",
     "lastName": "Doe",
-    "role": "admin"
+    "role": "admin",
+    "email": "john@doe.com"
 }
 
 ###
@@ -28,4 +29,4 @@ GET http://localhost:3000/user/5b9ddee1763c327e9ef0c834 HTTP/1.1
 
 ###
 
-DELETE http://localhost:3000/user/5b9de2161e930f02e4e2e413 HTTP/1.1
+DELETE http://localhost:3000/user/5b9de03d7357d27fe8c98bf9 HTTP/1.1

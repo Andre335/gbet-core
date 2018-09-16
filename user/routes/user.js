@@ -1,5 +1,5 @@
 const express = require('express')
-var User = require('../controller/user')
+var User = require('../user.controller')
 var router = express.Router()
 
 router.get('/', User.findAll)

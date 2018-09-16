@@ -1,5 +1,5 @@
 'use strict';
-var User = require('../model/user')
+var User = require('./user.model')
 
 exports.findAll = (req, res) => {
     User.find().then(data => {
@@ -42,16 +42,11 @@ exports.findOne = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    if(!req.body.firstName || !req.body.lastName) {
-        return res.status(400).send({
-            message: "First Name and Last Name should be informed!"
-        });
-    }
-
     const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        role: req.body.role
+        role: req.body.role,
+        email: req.body.email
     });
 
     newUser.save().then(data => {
@@ -94,12 +89,6 @@ exports.deleteById = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    if(!req.body.firstName || !req.body.lastName) {
-        return res.status(400).send({
-            message: "First Name and Last Name should be informed!"
-        });
-    }
-
     const updatedUser = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
