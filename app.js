@@ -12,12 +12,14 @@ var rfs = require('rotating-file-stream');
 var fs = require('fs');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://angoncal:Andre95153565@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ENVIRON = process.env.ENVIRON || 'production';
+const DBUSER = process.env.DBUSER || 'john';
+const DBPASS = process.env.DBPASS || 'doe';
+
+mongoose.connect('mongodb://' + DBUSER + ':' + DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

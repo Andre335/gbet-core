@@ -177,3 +177,5 @@
 ::ffff:127.0.0.1 - - [16/Sep/2018:07:26:11 +0000] "GET /user HTTP/1.1" 200 240 "-" "vscode-restclient"
 ::ffff:127.0.0.1 - - [16/Sep/2018:07:26:19 +0000] "DELETE /user/5b9e058588b8f6180563aad9 HTTP/1.1" 200 116 "-" "vscode-restclient"
 ::ffff:127.0.0.1 - - [16/Sep/2018:07:26:22 +0000] "GET /user HTTP/1.1" 200 123 "-" "vscode-restclient"
+::ffff:127.0.0.1 - - [17/Sep/2018:05:23:38 +0000] "GET /user HTTP/1.1" 200 123 "-" "vscode-restclient"
+::ffff:127.0.0.1 - - [17/Sep/2018:05:24:01 +0000] "GET /user/5b9e0450463ef91701618d18 HTTP/1.1" 200 121 "-" "vscode-restclient"
