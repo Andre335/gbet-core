@@ -9,7 +9,7 @@ exports.findAll = (req, res) => {
             });
         }
 
-        res.send(data);
+        res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
             message: err.message || "We couldn't find users"
@@ -25,7 +25,7 @@ exports.findOne = (req, res) => {
             });
         }
 
-        res.send(data);
+        res.status(200).send(data[0]);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             var status = 404;
@@ -49,42 +49,16 @@ exports.create = (req, res) => {
         email: req.body.email
     });
 
-    newUser.save().then(data => {
-        if(data.length == 0) {
-            return res.status(404).send({
-                message: "User doesn't exist!"
-            });
-        }
-
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "We couldn't create the user!"
-        });
+    newUser.save(err => {
+        if (err) return res.status(500).send(err.message);
+        return res.status(200).send(newUser);
     });
 }
 
 exports.deleteById = (req, res) => {
-    User.findByIdAndRemove({_id: req.params.id}).then(data => {
-        if(data.length == 0) {
-            return res.status(404).send({
-                message: "User doesn't exist!"
-            });
-        }
-
-        res.send({message: "User deleted!"});
-    }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            var status = 404;
-            return res.status(status).send({
-                message: getStatusMessage(status, "delete")
-            });                
-        } else {
-            var status = 500;
-            return res.status(status).send({
-                message: getStatusMessage(status, "delete")
-            });
-        }
+    User.findByIdAndRemove(req.params.id, (err, data) => {
+        if(err && err.kind === 'ObjectId') return res.status(500).send("User not found!");
+        res.status(200).send(data);
     });
 }
 
@@ -101,7 +75,7 @@ exports.update = (req, res) => {
                 message: err.message || "Server Error!"
             });
         }
-        res.send(user);
+        res.status(200).send(user);
     });
 }
 
