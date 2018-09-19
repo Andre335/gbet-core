@@ -4,10 +4,10 @@ var User = require('./user.model')
 exports.findAll = (req, res) => {
     User.find().then(data => {
         if(data.length == 0) {
-            return res.status(404).send(data);
+            return res.status(404).json(data);
         }
 
-        res.status(200).send(data);
+        res.status(200).json(data);
     }).catch(err => {
         res.status(500).send({
             message: err.message || "We couldn't find users"
@@ -50,14 +50,14 @@ exports.create = (req, res) => {
 
     newUser.save(err => {
         if (err) return res.status(500).send(err.message);
-        return res.status(200).send(newUser);
+        return res.status(200).json(newUser);
     });
 }
 
 exports.deleteById = (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, data) => {
         if(err && err.kind === 'ObjectId') return res.status(500).send("User not found!");
-        res.status(200).send(data);
+        res.status(200).json(data);
     });
 }
 

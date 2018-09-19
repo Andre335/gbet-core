@@ -20,7 +20,9 @@ const DBUSER = process.env.DBUSER || 'john';
 const DBPASS = process.env.DBPASS || 'doe';
 
 // mongoose.connect('mongodb://' + DBUSER + ':' + DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+//mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -48,3 +50,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT + ' and on ' + ENVIRON + ' enviroment'))
+
+module.exports = app;
