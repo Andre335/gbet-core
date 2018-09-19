@@ -23,6 +23,10 @@ var userSchema = new Schema({
     dateOfBirth: {
         type: Date,
         required: false
+    },
+    banned: {
+        type: Boolean,
+        required: false
     }
 });
 

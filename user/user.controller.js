@@ -46,7 +46,8 @@ exports.create = (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         role: req.body.role,
-        email: req.body.email
+        email: req.body.email,
+        banned: false
     });
 
     newUser.save(err => {
@@ -66,7 +67,8 @@ exports.update = (req, res) => {
     const updatedUser = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        role: req.body.role
+        role: req.body.role,
+        email: req.body.email
     };
 
     User.findByIdAndUpdate(req.params.id, { $set: updatedUser}, { new: true }, (err, user) => {
