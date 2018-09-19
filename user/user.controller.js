@@ -4,9 +4,7 @@ var User = require('./user.model')
 exports.findAll = (req, res) => {
     User.find().then(data => {
         if(data.length == 0) {
-            return res.status(400).send({
-                message: "No Users!"
-            });
+            return res.status(404).send(data);
         }
 
         res.status(200).send(data);
