@@ -20,8 +20,8 @@ const DBUSER = process.env.DBUSER || 'john';
 const DBPASS = process.env.DBPASS || 'doe';
 
 // mongoose.connect('mongodb://' + DBUSER + ':' + DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-//mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+// mongoose.connect('mongodb://localhost:27017/angoncal', {useNewUrlParser: true});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

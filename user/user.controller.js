@@ -16,26 +16,24 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    User.find({"_id": req.params.id}).then(data => {
+    User.find({"_id": req.params.id}).then((data, err) => {
         if(data.length == 0) {
-            return res.status(404).send({
-                message: "User doesn't exist!"
-            });
+            return res.status(404).json(data);
         }
 
-        res.status(200).send(data[0]);
-    }).catch(err => {
         if(err.kind === 'ObjectId') {
             var status = 404;
             return res.status(status).send({
                 message: getStatusMessage(status, "find")
             });            
-        } else {
+        } else if (err) {
             var status = 500;
             return res.status(status).send({
                 message: getStatusMessage(status, "find")
             });
         }
+
+        res.status(200).send(data[0]);
     });
 };
 
@@ -50,7 +48,7 @@ exports.create = (req, res) => {
 
     newUser.save(err => {
         if (err) return res.status(500).send(err.message);
-        return res.status(200).json(newUser);
+        return res.status(201).json(newUser);
     });
 }
 
