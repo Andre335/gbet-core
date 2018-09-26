@@ -11,6 +11,7 @@ var path = require('path');
 var rfs = require('rotating-file-stream');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var cors = require('cors');
 
 const bodyParser = require('body-parser');
 const app = express();
@@ -36,6 +37,7 @@ var accessLogStream = rfs('access.log', {
 });
 
 app.use(morgan('combined', { stream: accessLogStream }));
+app.use(cors())
 
 app.use('/bet', bet);
 app.use('/calendar', calendar);
