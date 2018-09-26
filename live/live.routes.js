@@ -1,20 +1,19 @@
 const express = require('express')
+var Live = require('./live.controller')
 var router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('Get Lives Request!')
-})
+router.get('/', Live.findAll)
 
-router.get('/:id', function (req, res) {
-    res.send('Get Live Request!')
-})
+router.get('/:id', Live.findOne)
+
+router.post('/', Live.create)
+
+router.delete('/:id', Live.deleteById)
+
+router.put('/:id', Live.update)
 
 router.get('/:id/aposta', function (req, res) {
     res.send('Get Aposta from Live Request!')
-})
-
-router.post('/', function (req, res) {
-    res.send('Post Live Request!')
 })
 
 module.exports = router

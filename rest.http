@@ -25,8 +25,20 @@ GET http://localhost:3000/user HTTP/1.1
 
 ###
 
+GET http://localhost:3000/live HTTP/1.1
+
+###
+
 GET http://localhost:3000/user/5b9e0450463ef91701618d18 HTTP/1.1
 
 ###
 
+GET http://localhost:3000/live/5b9e0450463ef91701618d18 HTTP/1.1
+
+###
+
 DELETE http://localhost:3000/user/5b9e058588b8f6180563aad9 HTTP/1.1
+
+###
+
+DELETE http://localhost:3000/live/5b9e058588b8f6180563aad9 HTTP/1.1
