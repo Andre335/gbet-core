@@ -28,7 +28,7 @@ exports.findOne = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         await User.create(req.body);
-        res.status(201).send({message: "User created"});
+        res.status(201).json(req.body);
     } catch (err) {
         res.status(500).send({message: err.message});
     }
