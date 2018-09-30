@@ -1,7 +1,17 @@
 # gbet-core
-Back-End da GBet
+GBet Back-End
 
-Uma ferramenta de apostas para jogos em tempo real para Streammers, foco inicial em twitch.
+A tool for betting on games livestreams, focusing on twitch.
 
-Estrutura de pacotes:
-Cada pasta esta relacionada a uma entidade do sistema e dentro delas pode se ver outros diretorios apontando para o arquivo de rotas, controller, modelo, etc delas.
+Folders and files structure:
+Each file is related to an entity inside them, you will find controllers, tests, services, routes for each of them.
+
+Tests:
+run tests using: npm test
+
+Running Server:
+run the server using: node app.js
+
+Acess the application on localhost:3000
+
+Documentation: TODO
