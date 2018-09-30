@@ -100,3 +100,17 @@ exports.findComplaintsByAuthor = async (req, res) => {
         res.status(500).send({message: err.message});
     }
 }
+
+exports.findComplaintsByAccused = async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const result = await Complaint.findByAccused(userID);
+        if (result.length == 0) {
+            res.status(404).send({message: "This user isnt accused of complaints"});
+        } else {
+            res.status(200).json(result);
+        }
+    } catch (err) {
+        res.status(500).send({message: err.message});
+    }
+}

@@ -140,7 +140,17 @@ describe('Tests for /user route', () => {
 
     it('Test get complaints by author without complaints', (done) => {
         request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/complaints')
+            .get('/user/5baedf4a16ca765081d6f17f/complaints/author')
+            .expect(404)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get complaints by accused without complaints', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
             .expect(404)
             .then((res) => {
                 done();
@@ -244,7 +254,7 @@ describe('Tests for /user route', () => {
 
     it('Test get complaints by author with complaints', (done) => {
         request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/complaints')
+            .get('/user/5baedf4a16ca765081d6f17f/complaints/author')
             .expect(200)
             .expect('Content-Type', /json/)
             .then((res) => {
@@ -253,6 +263,25 @@ describe('Tests for /user route', () => {
                 expect(res.body[0]).to.have.property('author');
                 expect(res.body[0].author).equals('5baedf4a16ca765081d6f17f');
                 expect(res.body[0]).to.have.property('accused');
+                expect(res.body[0]).to.have.property('title');
+                expect(res.body[0]).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get complaints by accused with complaints', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.have.lengthOf(1);
+                expect(res.body[0]).to.have.property('author');
+                expect(res.body[0].author).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body[0]).to.have.property('accused');
+                expect(res.body[0].accused).equals('5baedf4a16ca765081d6f47f');
                 expect(res.body[0]).to.have.property('title');
                 expect(res.body[0]).to.have.property('description');
                 done();

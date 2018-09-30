@@ -55,7 +55,9 @@ router.get('/:id/lives', User.findLivesByOwner)
 
 router.get('/:id/bets', User.findBetsByOwner)
 
-router.get('/:id/complaints', User.findComplaintsByAuthor)
+router.get('/:id/complaints/author', User.findComplaintsByAuthor)
+
+router.get('/:id/complaints/accused', User.findComplaintsByAccused)
 
 router.get('/:id/calendar', function (req, res) {
     res.send('Get Users Calendario Request!')

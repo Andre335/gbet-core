@@ -14,6 +14,10 @@ exports.findByAuthor = async (id) => {
     return await Complaint.find({"author": id});
 };
 
+exports.findByAccused = async (id) => {
+    return await Complaint.find({"accused": id});
+};
+
 exports.create = async (data) => {
     const complaint = new Complaint(data);
     await complaint.save();
