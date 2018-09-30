@@ -34,6 +34,12 @@ describe('Tests for /user route', () => {
         "banned": false
     }
 
+    let calendar = {
+        "_id": "5baedf4a16ca765081d6f67f",
+        "owner": "5baedf4a16ca765081d6f17f",
+        "favourites": []
+    }
+
     let user2 = {
         "_id": "5baedf4a16ca765081d6f47f",
         "firstName": "johnny",
@@ -138,6 +144,16 @@ describe('Tests for /user route', () => {
             .catch(done);
     }).timeout(0);
 
+    it('Test get calendar by owner without calendar', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/calendar')
+            .expect(404)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
     it('Test get complaints by author without complaints', (done) => {
         request(app)
             .get('/user/5baedf4a16ca765081d6f17f/complaints/author')
@@ -179,6 +195,22 @@ describe('Tests for /user route', () => {
                 expect(res.body.owner).equals('5baedf4a16ca765081d6f17f');
                 expect(res.body).to.have.property('title');
                 expect(res.body).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test register calendar', (done) => {
+        request(app)
+            .post('/calendar/')
+            .send(calendar)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('owner');
+                expect(res.body).to.have.property('favourites');
+                expect(res.body.favourites).to.be.an('array');
+                expect(res.body.favourites).to.have.lengthOf(0);
                 done();
             })
             .catch(done);
@@ -230,6 +262,24 @@ describe('Tests for /user route', () => {
                 expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
                 expect(res.body[0]).to.have.property('title');
                 expect(res.body[0]).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get calendar by owner with calendar', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/calendar')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.have.lengthOf(1);
+                expect(res.body[0]).to.have.property('owner');
+                expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body[0]).to.have.property('favourites');
+                expect(res.body[0].favourites).to.be.an('array');
+                expect(res.body[0].favourites).to.have.lengthOf(0);
                 done();
             })
             .catch(done);
@@ -388,6 +438,16 @@ describe('Tests for /user route', () => {
     it('Test DeleteById with existing id', (done) => {
         request(app)
             .delete('/user/5baedf4a16ca765081d6f17f')
+            .expect(202)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test calendar DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/calendar/5baedf4a16ca765081d6f67f')
             .expect(202)
             .then((res) => {
                 done();

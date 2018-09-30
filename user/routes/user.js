@@ -59,8 +59,6 @@ router.get('/:id/complaints/author', User.findComplaintsByAuthor)
 
 router.get('/:id/complaints/accused', User.findComplaintsByAccused)
 
-router.get('/:id/calendar', function (req, res) {
-    res.send('Get Users Calendario Request!')
-})
+router.get('/:id/calendar', User.findCalendarByOwner)
 
 module.exports = router
