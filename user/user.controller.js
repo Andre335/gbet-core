@@ -1,5 +1,6 @@
 'use strict';
 var User = require('./user.server')
+var Live = require('../live/live.server')
 
 exports.findAll = async (req, res) => {
     try {
@@ -49,6 +50,20 @@ exports.update = async (req, res) => {
         const userID = req.params.id;
         await User.update(userID, req.body);
         res.status(202).send({message: "User updated"}); 
+    } catch (err) {
+        res.status(500).send({message: err.message});
+    }
+}
+
+exports.findLivesByOwner = async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const result = await Live.findByOwner(userID);
+        if (result.length == 0) {
+            res.status(404).send({message: "This user dont have lives"});
+        } else {
+            res.status(200).json(result);
+        }
     } catch (err) {
         res.status(500).send({message: err.message});
     }

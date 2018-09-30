@@ -34,6 +34,13 @@ describe('Tests for /user route', () => {
         "banned": false
     }
 
+    let live1 = {
+        "_id": "5baedf4a16ca765081d6f27f",
+        "owner": "5baedf4a16ca765081d6f17f",
+        "title": "live title",
+        "description": "live descriptions"
+    }
+
     let invaliduser = {
         "lastName": "doe",
         "email": "john@doe.com",
@@ -46,6 +53,7 @@ describe('Tests for /user route', () => {
             .post('/user/')
             .send(user1)
             .expect(201)
+            .expect('Content-Type', /json/)
             .then((res) => {
                 expect(res.body).to.have.property('firstName');
                 expect(res.body).to.have.property('lastName');
@@ -57,10 +65,54 @@ describe('Tests for /user route', () => {
             .catch(done);
     }).timeout(0);
 
+    it('Test get lives by owner without lives', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/lives')
+            .expect(404)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test register live', (done) => {
+        request(app)
+            .post('/live')
+            .send(live1)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('owner');
+                expect(res.body.owner).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body).to.have.property('title');
+                expect(res.body).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get lives by owner with lives', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/lives')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.have.lengthOf(1);
+                expect(res.body[0]).to.have.property('owner');
+                expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body[0]).to.have.property('title');
+                expect(res.body[0]).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
     it('Test findOne with user', (done) => {
         request(app)
             .get('/user/5baedf4a16ca765081d6f17f')
             .expect(200)
+            .expect('Content-Type', /json/)
             .then((res) => {
                 expect(res.body).to.have.property('firstName');
                 expect(res.body).to.have.property('lastName');
@@ -106,6 +158,16 @@ describe('Tests for /user route', () => {
         request(app)
             .delete('/user/1')
             .expect(500)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test Live DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/live/5baedf4a16ca765081d6f27f')
+            .expect(202)
             .then((res) => {
                 done();
             })

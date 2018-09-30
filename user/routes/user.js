@@ -51,6 +51,8 @@ router.delete('/:id', User.deleteById)
 
 router.put('/:id', User.update)
 
+router.get('/:id/lives', User.findLivesByOwner)
+
 router.get('/:id/denuncia', function (req, res) {
     res.send('Get User Denuncia Request!')
 })

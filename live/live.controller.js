@@ -36,7 +36,7 @@ exports.create = async (req, res) => {
         const userResult = await User.findOne(userID);
         if (!userResult) return res.status(404).send({message: "User from live not found"});
         await Live.create(req.body);
-        res.status(201).send({message: "Live created"});
+        res.status(201).json(req.body);
     } catch (err) {
         res.status(500).send({message: err.message});
     }
