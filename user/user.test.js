@@ -57,7 +57,7 @@ describe('Tests for /user route', () => {
             .catch(done);
     }).timeout(0);
 
-    it('Test findOne with no users', (done) => {
+    it('Test findOne with user', (done) => {
         request(app)
             .get('/user/5baedf4a16ca765081d6f17f')
             .expect(200)
