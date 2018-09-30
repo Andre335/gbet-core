@@ -1,12 +1,15 @@
 const express = require('express')
+var Bet = require('./bet.controller')
 var router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('Get Apostas Request!')
-})
+router.get('/', Bet.findAll)
 
-router.post('/', function (req, res) {
-    res.send('Post Aposta Request!')
-})
+router.get('/:id', Bet.findOne)
+
+router.post('/', Bet.create)
+
+router.put('/:id', Bet.update)
+
+router.delete('/:id', Bet.deleteById)
 
 module.exports = router

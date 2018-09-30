@@ -8,13 +8,13 @@ var betSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    live_id: {
+    live: {
         type: Schema.Types.ObjectId,
         required: true
     },
     value: {
         type: Number,
-        required: false
+        required: true
     }
 });
 

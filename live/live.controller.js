@@ -17,14 +17,7 @@ exports.findOne = async (req, res) => {
         const liveID = req.params.id;
         const liveResult = await Live.findOne(liveID);
         if (!liveResult) res.status(404).send({message: "Live not found"});
-
-        const userID = liveResult.owner;
-        const userResult = await User.findOne(userID);
-        if (!userResult) {
-            res.status(404).send({message: "User from live not found"});
-        } else {
-            res.status(200).json(liveResult);
-        }
+        res.status(200).json(liveResult);
     } catch (err) {
         res.status(500).send({message: err.message});
     }
