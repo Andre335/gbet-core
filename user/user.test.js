@@ -48,6 +48,10 @@ describe('Tests for /user route', () => {
         "banned": false
     }
 
+    let modifications = {
+        "lastName": "Modified"
+    }
+
     it('Test create valid user', (done) => {
         request(app)
             .post('/user/')
@@ -57,6 +61,24 @@ describe('Tests for /user route', () => {
             .then((res) => {
                 expect(res.body).to.have.property('firstName');
                 expect(res.body).to.have.property('lastName');
+                expect(res.body).to.have.property('email');
+                expect(res.body).to.have.property('role');
+                expect(res.body).to.have.property('banned');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test update user', (done) => {
+        request(app)
+            .put('/user/5baedf4a16ca765081d6f17f')
+            .send(modifications)
+            .expect(202)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('firstName');
+                expect(res.body).to.have.property('lastName');
+                expect(res.body.lastName).equals('Modified');
                 expect(res.body).to.have.property('email');
                 expect(res.body).to.have.property('role');
                 expect(res.body).to.have.property('banned');

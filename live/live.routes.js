@@ -12,7 +12,7 @@ router.delete('/:id', Live.deleteById)
 
 router.put('/:id', Live.update)
 
-router.get('/:id/aposta', function (req, res) {
+router.get('/:id/bet', function (req, res) {
     res.send('Get Aposta from Live Request!')
 })
 

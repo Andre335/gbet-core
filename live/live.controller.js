@@ -56,7 +56,9 @@ exports.update = async (req, res) => {
     try {
         const liveID = req.params.id;
         await Live.update(liveID, req.body);
-        res.status(202).send({message: "Live updated"}); 
+
+        const updatedLive = await Live.findOne(liveID);
+        res.status(202).json(updatedLive); 
     } catch (err) {
         res.status(500).send({message: err.message});
     }
