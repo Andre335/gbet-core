@@ -4,10 +4,10 @@ ObjectID = require('mongodb').ObjectID;
 var expect = chai.expect;
 const app = require('../app');
 
-describe('Tests for /live route', () => {
-    it('Test findAll with no Lives', (done) => {
+describe('Tests for /bet route', () => {
+    it('Test findAll with no Bets', (done) => {
         request(app)
-            .get('/live')
+            .get('/bet')
             .expect(404)
             .then((res) => {
                 done();
@@ -15,9 +15,9 @@ describe('Tests for /live route', () => {
             .catch(done);
     }).timeout(0);
 
-    it('Test findOne with no Lives', (done) => {
+    it('Test findOne with no Bets', (done) => {
         request(app)
-            .get('/live/' + new ObjectID())
+            .get('/bet/' + new ObjectID())
             .expect(404)
             .then((res) => {
                 done();
@@ -32,8 +32,16 @@ describe('Tests for /live route', () => {
         "description": "live descriptions"
     }
 
-    let liveinv = {
+    bet1 = {
+        "_id": "5baedf4a16ca765081d6f37f",
         "owner": "5baedf4a16ca765081d6f17f",
+        "live": "5baedf4a16ca765081d6f27f",
+        "value": 7
+    }
+
+    let betinv = {
+        "owner": "5baedf4a16ca765081d6f17f",
+        "live": "5baedf4a16ca765081d6f27f"
     }
 
     let user1 = {
@@ -46,21 +54,13 @@ describe('Tests for /live route', () => {
     }
 
     let modifications = {
-        "title": "Modified",
-        "description": "Modified"
+        "value": 10
     }
 
-    let bet1 = {
-        "_id": "5baedf4a16ca765081d6f37f",
-        "live": "5baedf4a16ca765081d6f27f",
-        "owner": "5baedf4a16ca765081d6f17f",
-        "value": 5
-    }
-
-    it('Test create valid live without owner', (done) => {
+    it('Test create valid bet without owner and live', (done) => {
         request(app)
-            .post('/live/')
-            .send(live1)
+            .post('/bet/')
+            .send(bet1)
             .expect(404)
             .then((res) => {
                 done();
@@ -85,11 +85,11 @@ describe('Tests for /live route', () => {
             .catch(done);
     }).timeout(0);
 
-    it('Test create invalid live', (done) => {
+    it('Test create valid bet without live', (done) => {
         request(app)
-            .post('/live/')
-            .send(liveinv)
-            .expect(500)
+            .post('/bet/')
+            .send(bet1)
+            .expect(404)
             .then((res) => {
                 done();
             })
@@ -111,44 +111,27 @@ describe('Tests for /live route', () => {
             .catch(done);
     }).timeout(0);
 
-    it('Test get bets by live without bets', (done) => {
+    it('Test create valid bet with owner and live', (done) => {
         request(app)
-            .get('/live/5baedf4a16ca765081d6f27f/bets')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test register bet', (done) => {
-        request(app)
-            .post('/bet')
+            .post('/bet/')
             .send(bet1)
             .expect(201)
             .expect('Content-Type', /json/)
             .then((res) => {
                 expect(res.body).to.have.property('owner');
-                expect(res.body).to.have.property('live');
-                expect(res.body.live).equals('5baedf4a16ca765081d6f27f');
                 expect(res.body).to.have.property('value');
+                expect(res.body).to.have.property('live');
                 done();
             })
             .catch(done);
     }).timeout(0);
 
-    it('Test get bets by live with bets', (done) => {
+    it('Test create invalid bet', (done) => {
         request(app)
-            .get('/live/5baedf4a16ca765081d6f27f/bets')
-            .expect(200)
-            .expect('Content-Type', /json/)
+            .post('/bet/')
+            .send(betinv)
+            .expect(500)
             .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('owner');
-                expect(res.body[0]).to.have.property('live');
-                expect(res.body[0].live).equals('5baedf4a16ca765081d6f27f');
-                expect(res.body[0]).to.have.property('value');
                 done();
             })
             .catch(done);
@@ -156,21 +139,21 @@ describe('Tests for /live route', () => {
 
     it('Test findOne with success', (done) => {
         request(app)
-            .get('/live/5baedf4a16ca765081d6f27f')
+            .get('/bet/5baedf4a16ca765081d6f37f')
             .expect(200)
             .expect('Content-Type', /json/)
             .then((res) => {
                 expect(res.body).to.have.property('owner');
-                expect(res.body).to.have.property('title');
-                expect(res.body).to.have.property('description');
+                expect(res.body).to.have.property('live');
+                expect(res.body).to.have.property('value');
                 done();
             })
             .catch(done);
     }).timeout(0);
 
-    it('Test findAll with live', (done) => {
+    it('Test findAll with live and owner', (done) => {
         request(app)
-            .get('/live')
+            .get('/bet')
             .expect(200)
             .expect('Content-Type', /json/)
             .then((res) => {
@@ -178,25 +161,24 @@ describe('Tests for /live route', () => {
                 expect(res.body).to.have.lengthOf(1);
                 expect(res.body[0]).to.have.property('_id');
                 expect(res.body[0]).to.have.property('owner');
-                expect(res.body[0]).to.have.property('title');
-                expect(res.body[0]).to.have.property('description');
+                expect(res.body[0]).to.have.property('live');
+                expect(res.body[0]).to.have.property('value');
                 done();
             })
             .catch(done);
     }).timeout(0);
 
-    it('Test update live', (done) => {
+    it('Test update bet', (done) => {
         request(app)
-            .put('/live/5baedf4a16ca765081d6f27f')
+            .put('/bet/5baedf4a16ca765081d6f37f')
             .send(modifications)
             .expect(202)
             .expect('Content-Type', /json/)
             .then((res) => {
                 expect(res.body).to.have.property('owner');
-                expect(res.body).to.have.property('title');
-                expect(res.body.title).equals('Modified');
-                expect(res.body).to.have.property('description');
-                expect(res.body.description).equals('Modified');
+                expect(res.body).to.have.property('live');
+                expect(res.body).to.have.property('value');
+                expect(res.body.value).equals(10);
                 done();
             })
             .catch(done);
@@ -204,7 +186,7 @@ describe('Tests for /live route', () => {
 
     it('Test DeleteById with not existing id', (done) => {
         request(app)
-            .delete('/live/1')
+            .delete('/bet/1')
             .expect(500)
             .then((res) => {
                 done();
@@ -213,16 +195,6 @@ describe('Tests for /live route', () => {
     }).timeout(0);
 
     it('Test DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/live/5baedf4a16ca765081d6f27f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test bet DeleteById with existing id', (done) => {
         request(app)
             .delete('/bet/5baedf4a16ca765081d6f37f')
             .expect(202)
@@ -242,4 +214,13 @@ describe('Tests for /live route', () => {
             .catch(done);
     }).timeout(0);
 
+    it('Test live DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/live/5baedf4a16ca765081d6f27f')
+            .expect(202)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
 });

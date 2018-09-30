@@ -12,8 +12,6 @@ router.delete('/:id', Live.deleteById)
 
 router.put('/:id', Live.update)
 
-router.get('/:id/aposta', function (req, res) {
-    res.send('Get Aposta from Live Request!')
-})
+router.get('/:id/bets', Live.findBetsByLive)
 
 module.exports = router

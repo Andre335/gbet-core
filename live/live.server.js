@@ -6,6 +6,10 @@ exports.findAll = async (data) => {
     return await Live.find({});
 };
 
+exports.findByOwner = async (id) => {
+    return await Live.find({"owner": id});
+};
+
 exports.findOne = async (id) => {
     return await Live.findById(id);
 };

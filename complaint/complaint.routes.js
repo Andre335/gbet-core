@@ -1,12 +1,15 @@
 const express = require('express')
+var Complaint = require('./complaint.controller')
 var router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('Get Denuncias Request!')
-})
+router.get('/', Complaint.findAll)
 
-router.post('/:id', function (req, res) {
-    res.send('Post Denuncia Request!')
-})
+router.get('/:id', Complaint.findOne)
+
+router.post('/', Complaint.create)
+
+router.delete('/:id', Complaint.deleteById)
+
+router.put('/:id', Complaint.update)
 
 module.exports = router

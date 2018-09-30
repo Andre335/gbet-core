@@ -1,12 +1,15 @@
 const express = require('express')
+var Calendar = require('./calendar.controller')
 var router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('Get Calendarios Request!')
-})
+router.get('/', Calendar.findAll)
 
-router.post('/:id', function (req, res) {
-    res.send('Post Calendario Request!')
-})
+router.get('/:id', Calendar.findOne)
+
+router.post('/', Calendar.create)
+
+router.delete('/:id', Calendar.deleteById)
+
+router.put('/:id', Calendar.update)
 
 module.exports = router

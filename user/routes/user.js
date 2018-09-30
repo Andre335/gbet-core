@@ -51,12 +51,14 @@ router.delete('/:id', User.deleteById)
 
 router.put('/:id', User.update)
 
-router.get('/:id/denuncia', function (req, res) {
-    res.send('Get User Denuncia Request!')
-})
+router.get('/:id/lives', User.findLivesByOwner)
 
-router.get('/:id/calendario', function (req, res) {
-    res.send('Get Users Calendario Request!')
-})
+router.get('/:id/bets', User.findBetsByOwner)
+
+router.get('/:id/complaints/author', User.findComplaintsByAuthor)
+
+router.get('/:id/complaints/accused', User.findComplaintsByAccused)
+
+router.get('/:id/calendar', User.findCalendarByOwner)
 
 module.exports = router
