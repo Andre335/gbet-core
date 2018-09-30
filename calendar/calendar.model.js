@@ -10,7 +10,7 @@ var calendarSchema = new Schema({
     },
     favourites: {
         type: [Schema.Types.ObjectId],
-        required: false
+        required: true
     }
 });
 
