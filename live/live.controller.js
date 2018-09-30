@@ -1,6 +1,7 @@
 'use strict';
 var User = require('../user/user.server');
-var Live = require('./live.server')
+var Live = require('./live.server');
+var Bet = require('../bet/bet.server');
 
 exports.findAll = async (req, res) => {
     try {
@@ -52,6 +53,20 @@ exports.update = async (req, res) => {
 
         const updatedLive = await Live.findOne(liveID);
         res.status(202).json(updatedLive); 
+    } catch (err) {
+        res.status(500).send({message: err.message});
+    }
+}
+
+exports.findBetsByLive = async (req, res) => {
+    try {
+        const liveID = req.params.id;
+        const result = await Bet.findByLive(liveID);
+        if (result.length == 0) {
+            res.status(404).send({message: "This live dont have bets"});
+        } else {
+            res.status(200).json(result);
+        }
     } catch (err) {
         res.status(500).send({message: err.message});
     }

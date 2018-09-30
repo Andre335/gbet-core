@@ -53,11 +53,13 @@ router.put('/:id', User.update)
 
 router.get('/:id/lives', User.findLivesByOwner)
 
-router.get('/:id/denuncia', function (req, res) {
+router.get('/:id/bets', User.findBetsByOwner)
+
+router.get('/:id/complaint', function (req, res) {
     res.send('Get User Denuncia Request!')
 })
 
-router.get('/:id/calendario', function (req, res) {
+router.get('/:id/calendar', function (req, res) {
     res.send('Get Users Calendario Request!')
 })
 

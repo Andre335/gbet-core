@@ -50,6 +50,13 @@ describe('Tests for /live route', () => {
         "description": "Modified"
     }
 
+    let bet1 = {
+        "_id": "5baedf4a16ca765081d6f37f",
+        "live": "5baedf4a16ca765081d6f27f",
+        "owner": "5baedf4a16ca765081d6f17f",
+        "value": 5
+    }
+
     it('Test create valid live without owner', (done) => {
         request(app)
             .post('/live/')
@@ -99,6 +106,49 @@ describe('Tests for /live route', () => {
                 expect(res.body).to.have.property('owner');
                 expect(res.body).to.have.property('title');
                 expect(res.body).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get bets by live without bets', (done) => {
+        request(app)
+            .get('/live/5baedf4a16ca765081d6f27f/bets')
+            .expect(404)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test register bet', (done) => {
+        request(app)
+            .post('/bet')
+            .send(bet1)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('owner');
+                expect(res.body).to.have.property('live');
+                expect(res.body.live).equals('5baedf4a16ca765081d6f27f');
+                expect(res.body).to.have.property('value');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get bets by live with bets', (done) => {
+        request(app)
+            .get('/live/5baedf4a16ca765081d6f27f/bets')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.have.lengthOf(1);
+                expect(res.body[0]).to.have.property('owner');
+                expect(res.body[0]).to.have.property('live');
+                expect(res.body[0].live).equals('5baedf4a16ca765081d6f27f');
+                expect(res.body[0]).to.have.property('value');
                 done();
             })
             .catch(done);
@@ -165,6 +215,16 @@ describe('Tests for /live route', () => {
     it('Test DeleteById with existing id', (done) => {
         request(app)
             .delete('/live/5baedf4a16ca765081d6f27f')
+            .expect(202)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test bet DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/bet/5baedf4a16ca765081d6f37f')
             .expect(202)
             .then((res) => {
                 done();

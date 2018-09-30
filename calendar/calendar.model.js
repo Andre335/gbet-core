@@ -9,7 +9,7 @@ var calendarSchema = new Schema({
         required: true
     },
     favourites: {
-        type: [String],
+        type: [Schema.Types.ObjectId],
         required: false
     }
 });
