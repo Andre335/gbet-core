@@ -3,7 +3,9 @@
 const Live = require("./live.model");
 
 exports.findAll = async (data) => {
-    return await Live.find({});
+    return await Live.find({}, (err) => {
+        if (err) throw err;
+    });
 };
 
 exports.findByOwner = async (id) => {

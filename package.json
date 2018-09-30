@@ -4,7 +4,7 @@
   "description": "Core do App GBet",
   "main": "app.js",
   "scripts": {
-    "test": "mocha user/user.test.js"
+    "test": "mocha ./*/*.test.js"
   },
   "repository": {
     "type": "git",
