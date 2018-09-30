@@ -10,6 +10,10 @@ exports.findOne = async (id) => {
     return await Complaint.findById(id);
 };
 
+exports.findByAuthor = async (id) => {
+    return await Complaint.find({"author": id});
+};
+
 exports.create = async (data) => {
     const complaint = new Complaint(data);
     await complaint.save();

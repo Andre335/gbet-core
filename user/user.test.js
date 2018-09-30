@@ -30,6 +30,15 @@ describe('Tests for /user route', () => {
         "firstName": "john",
         "lastName": "doe",
         "email": "john@doe.com",
+        "role": "viewer",
+        "banned": false
+    }
+
+    let user2 = {
+        "_id": "5baedf4a16ca765081d6f47f",
+        "firstName": "johnny",
+        "lastName": "doe",
+        "email": "john@doe.com",
         "role": "streammer",
         "banned": false
     }
@@ -39,6 +48,14 @@ describe('Tests for /user route', () => {
         "live": "5baedf4a16ca765081d6f27f",
         "owner": "5baedf4a16ca765081d6f17f",
         "value": 5
+    }
+
+    let complaint = {
+        "_id": "5baedf4a16ca765081d6f57f",
+        "author": "5baedf4a16ca765081d6f17f",
+        "accused": "5baedf4a16ca765081d6f47f",
+        "title": "tit",
+        "description": "desc"
     }
 
     let live1 = {
@@ -76,6 +93,23 @@ describe('Tests for /user route', () => {
             .catch(done);
     }).timeout(0);
 
+    it('Test create valid accused', (done) => {
+        request(app)
+            .post('/user/')
+            .send(user2)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('firstName');
+                expect(res.body).to.have.property('lastName');
+                expect(res.body).to.have.property('email');
+                expect(res.body).to.have.property('role');
+                expect(res.body).to.have.property('banned');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
     it('Test update user', (done) => {
         request(app)
             .put('/user/5baedf4a16ca765081d6f17f')
@@ -97,6 +131,16 @@ describe('Tests for /user route', () => {
     it('Test get lives by owner without lives', (done) => {
         request(app)
             .get('/user/5baedf4a16ca765081d6f17f/lives')
+            .expect(404)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get complaints by author without complaints', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/complaints')
             .expect(404)
             .then((res) => {
                 done();
@@ -146,6 +190,24 @@ describe('Tests for /user route', () => {
             .catch(done);
     }).timeout(0);
 
+    it('Test register complaint', (done) => {
+        request(app)
+            .post('/complaint')
+            .send(complaint)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.have.property('author');
+                expect(res.body.author).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body).to.have.property('accused');
+                expect(res.body.accused).equals('5baedf4a16ca765081d6f47f');
+                expect(res.body).to.have.property('title');
+                expect(res.body).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
     it('Test get lives by owner with lives', (done) => {
         request(app)
             .get('/user/5baedf4a16ca765081d6f17f/lives')
@@ -175,6 +237,34 @@ describe('Tests for /user route', () => {
                 expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
                 expect(res.body[0]).to.have.property('live');
                 expect(res.body[0]).to.have.property('value');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test get complaints by author with complaints', (done) => {
+        request(app)
+            .get('/user/5baedf4a16ca765081d6f17f/complaints')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then((res) => {
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.have.lengthOf(1);
+                expect(res.body[0]).to.have.property('author');
+                expect(res.body[0].author).equals('5baedf4a16ca765081d6f17f');
+                expect(res.body[0]).to.have.property('accused');
+                expect(res.body[0]).to.have.property('title');
+                expect(res.body[0]).to.have.property('description');
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/user/5baedf4a16ca765081d6f47f')
+            .expect(202)
+            .then((res) => {
                 done();
             })
             .catch(done);
@@ -249,6 +339,16 @@ describe('Tests for /user route', () => {
     it('Test bet DeleteById with existing id', (done) => {
         request(app)
             .delete('/bet/5baedf4a16ca765081d6f37f')
+            .expect(202)
+            .then((res) => {
+                done();
+            })
+            .catch(done);
+    }).timeout(0);
+
+    it('Test complaint DeleteById with existing id', (done) => {
+        request(app)
+            .delete('/complaint/5baedf4a16ca765081d6f57f')
             .expect(202)
             .then((res) => {
                 done();
