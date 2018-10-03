@@ -6,7 +6,7 @@ var Bet = require('../bet/bet.server');
 exports.findAll = async (req, res) => {
     try {
         const result = await Live.findAll();
-        if (result.length == 0) res.status(404).send({message: "Lives not found"})
+        if (result.length == 0) return res.status(404).send({message: "Lives not found"})
         res.status(200).json(result);
     } catch (err) {
         res.status(500).send({message: err.message});
@@ -17,7 +17,7 @@ exports.findOne = async (req, res) => {
     try {
         const liveID = req.params.id;
         const liveResult = await Live.findOne(liveID);
-        if (!liveResult) res.status(404).send({message: "Live not found"});
+        if (!liveResult) return res.status(404).send({message: "Live not found"});
         res.status(200).json(liveResult);
     } catch (err) {
         res.status(500).send({message: err.message});
