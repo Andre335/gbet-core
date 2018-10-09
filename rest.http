@@ -10,28 +10,6 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3000/live HTTP/1.1
-Content-Type: application/json
-
-{
-    "owner": "5baedf4a16ca765081d6f17f",
-    "title": "Live title",
-    "description": "Live description"
-}
-
-###
-
-PUT http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
-content-type: application/json
-
-{
-    "firstName": "John",
-    "lastName": "Modified",
-    "role": "admin"
-}
-
-###
-
 PUT http://localhost:3000/live/5baeeafe13f13257d83c52b5 HTTP/1.1
 content-type: application/json
 
@@ -47,20 +25,8 @@ GET http://localhost:3000/user HTTP/1.1
 
 ###
 
-GET http://localhost:3000/live HTTP/1.1
-
-###
-
 GET http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
 
 ###
 
-GET http://localhost:3000/live/5baee302d365b452f1ebad18 HTTP/1.1
-
-###
-
 DELETE http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
-
-###
-
-DELETE http://localhost:3000/live/5baeeafe13f13257d83c52b5 HTTP/1.1
