@@ -116,8 +116,6 @@ router.put('/:id', User.update)
  *         content: 
  *            -application/json:
  *         description: Return all the user lives
- *         schema:
- *            $ref: '#/definitions/user '
  *             
  */
 router.get('/:id/lives', User.findLivesByOwner)
@@ -136,8 +134,6 @@ router.get('/:id/lives', User.findLivesByOwner)
  *         content: 
  *            -application/json:
  *         description: Return all the user bets
- *         schema:
- *            $ref: '#/definitions/user '
  *             
  */
 router.get('/:id/bets', User.findBetsByOwner)
@@ -156,8 +152,6 @@ router.get('/:id/bets', User.findBetsByOwner)
  *         content: 
  *            -application/json:
  *         description: Return all the user complaints as author
- *         schema:
- *            $ref: '#/definitions/user '
  *             
  */
 router.get('/:id/complaints/author', User.findComplaintsByAuthor)
@@ -176,8 +170,6 @@ router.get('/:id/complaints/author', User.findComplaintsByAuthor)
  *         content: 
  *            -application/json:
  *         description: Return all the user complaints as accused
- *         schema:
- *            $ref: '#/definitions/user '
  *             
  */
 router.get('/:id/complaints/accused', User.findComplaintsByAccused)
@@ -196,8 +188,6 @@ router.get('/:id/complaints/accused', User.findComplaintsByAccused)
  *         content: 
  *            -application/json:
  *         description: Return the user calendar
- *         schema:
- *            $ref: '#/definitions/user '
  *             
  */
 router.get('/:id/calendar', User.findCalendarByOwner)
