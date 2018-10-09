@@ -1,115 +1,116 @@
 const express = require('express')
-var Calendar = require('./calendar.controller')
+var Streammer = require('./streammer.controller')
 var router = express.Router()
 
 /**
  * @swagger
- * /calendar:
+ * /streammer:
  *   get:
  *     tags:
- *       - Calendar
- *     description: Return all calendars
+ *       - Streammer
+ *     description: Return all streammers
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         content: 
  *            -application/json:
- *         description: All calendars
+ *         description: All streammers
  *         schema:
- *            $ref: '#/definitions/calendar '
+ *            $ref: '#/definitions/streammer '
  *             
  */
-router.get('/', Calendar.findAll)
+router.get('/', Streammer.findAll)
 
 /**
  * @swagger
- * /calendar/{id}:
+ * /streammer/{id}:
  *   get:
  *     tags:
- *       - Calendar
- *     description: Return one calendar with id: {id}
+ *       - Streammer
+ *     description: Return one streammer with id: {id}
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         content: 
  *            -application/json:
- *         description: Find one calendar
+ *         description: Find one streammer
  *         schema:
- *            $ref: '#/definitions/calendar '
+ *            $ref: '#/definitions/streammer '
  *             
  */
-router.get('/:id', Calendar.findOne)
+router.get('/:id', Streammer.findOne)
 
 /**
  * @swagger
- * /calendar/:
+ * /streammer/:
  *   post:
  *     tags:
- *       - Calendar
- *     description: Create one calendar
+ *       - Streammer
+ *     description: Create one streammer
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         content: 
  *            -application/json:
- *         description: Create one calendar
+ *         description: Create one streammer
  *         schema:
- *              $ref: '#/definitions/calendar '
- */ 
-router.post('/', Calendar.create)
+ *            $ref: '#/definitions/streammer '
+ *             
+ */
+router.post('/', Streammer.create)
 
 /**
  * @swagger
- * /calendar/{id}:
+ * /streammer/{id}:
  *   delete:
  *     tags:
- *       - Calendar
- *     description: Delete the calendar with id: {id}
+ *       - Streammer
+ *     description: Delete the streammer with id: {id}
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         content: 
  *            -application/json:
- *         description: Delete one calendar
+ *         description: Delete one streammer
  *         schema:
- *            $ref: '#/definitions/calendar '
+ *            $ref: '#/definitions/streammer '
  *             
  */
-router.delete('/:id', Calendar.deleteById)
+router.delete('/:id', Streammer.deleteById)
 
 /**
  * @swagger
- * /calendar/{id}:
+ * /streammer/{id}:
  *   put:
  *     tags:
- *       - Calendar
- *     description: Update the calendar with id: {id}
+ *       - Streammer
+ *     description: Update the streammer with id: {id}
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         content: 
  *            -application/json:
- *         description: Update one calendar
+ *         description: Update one streammer
  *         schema:
- *            $ref: '#/definitions/calendar '
+ *            $ref: '#/definitions/streammer '
  *             
  */
-router.put('/:id', Calendar.update)
+router.put('/:id', Streammer.update)
 
 module.exports = router
 
 /**
  * @swagger
  * definition:
- *   calendar:
+ *   streammer:
  *     properties:
- *          owner:
+ *          user_id:
  *              type: ObjectId
- *          favourites:
+ *          lives:
  *              type: Array of ObjectId
  */

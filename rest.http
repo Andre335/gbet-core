@@ -10,57 +10,32 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3000/live HTTP/1.1
-Content-Type: application/json
-
-{
-    "owner": "5baedf4a16ca765081d6f17f",
-    "title": "Live title",
-    "description": "Live description"
-}
-
-###
-
-PUT http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
+POST http://localhost:3000/viewer HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "John",
-    "lastName": "Modified",
-    "role": "admin"
+    "user_id": "5bbc37585e0d0e4d1e51adcf",
+    "favourite_lives": ["5bbc37585e0d0e4d1e52adcf"]
 }
 
 ###
 
-PUT http://localhost:3000/live/5baeeafe13f13257d83c52b5 HTTP/1.1
+PUT http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Modified",
-    "description": "Modified"
+    "favourite_lives": ["5bbc37585e0d0e4d1e52adcf", "5bbc37585e0d0e4d1e53adcf"]
 }
 
 
 ###
 
-GET http://localhost:3000/user HTTP/1.1
+GET http://localhost:3000/streammer HTTP/1.1
 
 ###
 
-GET http://localhost:3000/live HTTP/1.1
+GET http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
 
 ###
 
-GET http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
-
-###
-
-GET http://localhost:3000/live/5baee302d365b452f1ebad18 HTTP/1.1
-
-###
-
-DELETE http://localhost:3000/user/5baed935345e8b4a528d2ede HTTP/1.1
-
-###
-
-DELETE http://localhost:3000/live/5baeeafe13f13257d83c52b5 HTTP/1.1
+DELETE http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1

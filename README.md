@@ -14,4 +14,4 @@ run the server using: node app.js
 
 Acess the application on localhost:3000
 
-Documentation: TODO
+Documentation: On every '.route.js' file
