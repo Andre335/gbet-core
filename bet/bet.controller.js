@@ -6,7 +6,7 @@ var Bet = require('./bet.server')
 exports.findAll = async (req, res) => {
     try {
         const result = await Bet.findAll();
-        if (result.length == 0) res.status(404).send({message: "Bets not found"})
+        if (result.length == 0) return res.status(404).send({message: "Bets not found"})
         res.status(200).json(result);
     } catch (err) {
         res.status(500).send({message: err.message});
@@ -17,7 +17,7 @@ exports.findOne = async (req, res) => {
     try {
         const betID = req.params.id;
         const betResult = await Bet.findOne(betID);
-        if (!betResult) res.status(404).send({message: "Bet not found"});
+        if (!betResult) return res.status(404).send({message: "Bet not found"});
         res.status(200).json(betResult);
     } catch (err) {
         res.status(500).send({message: err.message});
