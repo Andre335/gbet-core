@@ -2,6 +2,9 @@ const express = require('express')
 var User = require('./user.controller')
 var router = express.Router()
 
+const auth = require('../config/auth');
+const authenticate = auth.auth;
+
 /**
  * @swagger
  * /user:

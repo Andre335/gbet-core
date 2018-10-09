@@ -31,7 +31,8 @@ describe('Tests for /complaint route', () => {
         "lastName": "doe",
         "email": "john@doe.com",
         "role": "viewer",
-        "banned": false
+        "banned": false,
+        "password": "1234567"
     }
 
     let accused = {
@@ -40,7 +41,8 @@ describe('Tests for /complaint route', () => {
         "lastName": "doe",
         "email": "john@doe.com",
         "role": "streammer",
-        "banned": false
+        "banned": false,
+        "password": "1234568"
     }
 
     let complaint = {
