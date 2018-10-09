@@ -5,7 +5,8 @@ content-type: application/json
     "firstName": "John",
     "lastName": "Doe",
     "role": "admin",
-    "email": "john@doe.com"
+    "email": "john@doe.com",
+    "password": "123456"
 }
 
 ###
@@ -30,7 +31,7 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/streammer HTTP/1.1
+GET http://localhost:3000/user HTTP/1.1
 
 ###
 
@@ -39,3 +40,23 @@ GET http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
 ###
 
 DELETE http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
+
+###
+
+POST http://localhost:3000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "john@doe.com",
+    "password": "123456"
+}
+
+###
+
+POST http://localhost:3000/auth/logout HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "john@doe.com",
+    "password": "123456"
+}

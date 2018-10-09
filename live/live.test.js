@@ -42,7 +42,8 @@ describe('Tests for /live route', () => {
         "lastName": "doe",
         "email": "john@doe.com",
         "role": "streammer",
-        "banned": false
+        "banned": false,
+        "password": "1234567"
     }
 
     let modifications = {

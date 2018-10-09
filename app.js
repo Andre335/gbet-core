@@ -6,25 +6,28 @@ var live = require('./live/live.routes');
 var user = require('./user/user.routes');
 var streammer = require('./user/roles/streammer/streammer.routes');
 var viewer = require('./user/roles/viewer/viewer.routes');
+var auth = require('./auth/auth.routes');
 var morgan = require('morgan');
 var path = require('path');
 var rfs = require('rotating-file-stream');
 var fs = require('fs');
 var mongoose = require('mongoose');
 var cors = require('cors');
+var configs = require('./config/credentials.json');
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./swagger.json');
 
 const bodyParser = require('body-parser');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express();  
 const ENVIRON = process.env.ENVIRON || 'production';
-const DBUSER = process.env.DBUSER || 'john';
-const DBPASS = process.env.DBPASS || 'doe';
+const PORT = configs.PORT || 3000;
 
-// mongoose.connect('mongodb://' + DBUSER + ':' + DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-// mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
+if (ENVIRON === 'production') {
+  mongoose.connect('mongodb://' + configs.DBUSER + ':' + configs.DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+  app.use(cors())
+} else {
+  mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -39,7 +42,6 @@ var accessLogStream = rfs('access.log', {
 });
 
 app.use(morgan('combined', { stream: accessLogStream }));
-app.use(cors())
 
 app.use('/bet', bet);
 app.use('/calendar', calendar);
@@ -48,6 +50,7 @@ app.use('/live', live);
 app.use('/user', user);
 app.use('/streammer', streammer);
 app.use('/viewer', viewer);
+app.use('/auth', auth);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // app.get('/', function (req, res) {
