@@ -12,8 +12,8 @@ var rfs = require('rotating-file-stream');
 var fs = require('fs');
 var mongoose = require('mongoose');
 var cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
 
 const bodyParser = require('body-parser');
 const app = express();
@@ -23,8 +23,8 @@ const DBUSER = process.env.DBUSER || 'john';
 const DBPASS = process.env.DBPASS || 'doe';
 
 // mongoose.connect('mongodb://' + DBUSER + ':' + DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-// mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
+mongoose.connect('mongodb://' + 'angoncal' + ':' + 'Andre95153565' + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+// mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -48,7 +48,7 @@ app.use('/live', live);
 app.use('/user', user);
 app.use('/streammer', streammer);
 app.use('/viewer', viewer);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // app.get('/', function (req, res) {
 //     res.send('Hello GBet!')

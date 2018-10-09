@@ -1,20 +1,15 @@
 const express = require('express')
+var Viewer = require('./viewer.controller')
 var router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('Get Viewers Request!')
-})
+router.get('/', Viewer.findAll)
 
-router.get('/:id', function (req, res) {
-    res.send('Get Viewer Request!')
-})
+router.get('/:id', Viewer.findOne)
 
-router.get('/:id/denuncia', function (req, res) {
-    res.send('Get User Denuncia Request!')
-})
+router.post('/', Viewer.create)
 
-router.get('/:id/calendario', function (req, res) {
-    res.send('Get Viewer Calendario Request!')
-})
+router.delete('/:id', Viewer.deleteById)
+
+router.put('/:id', Viewer.update)
 
 module.exports = router
