@@ -5,6 +5,43 @@ var expect = chai.expect;
 const app = require('../app');
 
 describe('Tests for /user route', () => {
+    // let userauth = {
+    //     "_id": "5baedf4a16ca765081d6f17f",
+    //     "firstName": "john",
+    //     "lastName": "doe",
+    //     "email": "john@doe1.com",
+    //     "role": "admin",
+    //     "banned": false,
+    //     "password": "haha12346"
+    // }
+
+    // it('Test create valid user', (done) => {
+    //     request(app)
+    //         .post('/user/')
+    //         .send(userauth)
+    //         .expect(201)
+    //         .expect('Content-Type', /json/)
+    //         .then((res) => {
+    //             expect(res.body).to.have.property('firstName');
+    //             expect(res.body).to.have.property('lastName');
+    //             expect(res.body).to.have.property('email');
+    //             expect(res.body).to.have.property('role');
+    //             expect(res.body).to.have.property('banned');
+    //             done();
+    //         })
+    //         .catch(done);
+    // }).timeout(0);
+
+    // it('Test authentication', (done) => {
+    //     request(app)
+    //         .post('/auth/login')
+    //         .expect(200)
+    //         .then((res) => {
+    //             done();
+    //         })
+    //         .catch(done);
+    // }).timeout(0);
+
     it('Test finAll with no Users', (done) => {
         request(app)
             .get('/user')
