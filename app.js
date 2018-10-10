@@ -17,9 +17,10 @@ var configs = require('./config/credentials.json');
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./swagger.json');
 
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();  
-const ENVIRON = process.env.ENVIRON || 'production';
+const ENVIRON = process.env.ENVIRON || 'test';
 const PORT = configs.PORT || 3000;
 
 if (ENVIRON === 'production') {
@@ -31,6 +32,7 @@ if (ENVIRON === 'production') {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 var logDirectory = path.join(__dirname, 'log');
 
