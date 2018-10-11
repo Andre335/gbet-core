@@ -23,7 +23,7 @@ const authenticate = auth.auth;
  *            $ref: '#/definitions/user '
  *             
  */
-router.get('/', User.findAll)
+router.get('/', authenticate, User.findAll)
 
 /**
  * @swagger
@@ -43,7 +43,7 @@ router.get('/', User.findAll)
  *            $ref: '#/definitions/user '
  *             
  */
-router.get('/:id', User.findOne)
+router.get('/:id', authenticate, User.findOne)
 
 /**
  * @swagger
@@ -63,7 +63,7 @@ router.get('/:id', User.findOne)
  *            $ref: '#/definitions/user '
  *             
  */
-router.post('/', User.create)
+router.post('/', authenticate, User.create)
 
 /**
  * @swagger
@@ -83,7 +83,7 @@ router.post('/', User.create)
  *            $ref: '#/definitions/user '
  *             
  */
-router.delete('/:id', User.deleteById)
+router.delete('/:id', authenticate, User.deleteById)
 
 /**
  * @swagger
@@ -103,7 +103,7 @@ router.delete('/:id', User.deleteById)
  *            $ref: '#/definitions/user '
  *             
  */
-router.put('/:id', User.update)
+router.put('/:id', authenticate, User.update)
 
 /**
  * @swagger
@@ -121,7 +121,7 @@ router.put('/:id', User.update)
  *         description: Return all the user lives
  *             
  */
-router.get('/:id/lives', User.findLivesByOwner)
+router.get('/:id/lives', authenticate, User.findLivesByOwner)
 
 /**
  * @swagger
@@ -139,7 +139,7 @@ router.get('/:id/lives', User.findLivesByOwner)
  *         description: Return all the user bets
  *             
  */
-router.get('/:id/bets', User.findBetsByOwner)
+router.get('/:id/bets', authenticate, User.findBetsByOwner)
 
 /**
  * @swagger
@@ -157,7 +157,7 @@ router.get('/:id/bets', User.findBetsByOwner)
  *         description: Return all the user complaints as author
  *             
  */
-router.get('/:id/complaints/author', User.findComplaintsByAuthor)
+router.get('/:id/complaints/author', authenticate, User.findComplaintsByAuthor)
 
 /**
  * @swagger
@@ -175,7 +175,7 @@ router.get('/:id/complaints/author', User.findComplaintsByAuthor)
  *         description: Return all the user complaints as accused
  *             
  */
-router.get('/:id/complaints/accused', User.findComplaintsByAccused)
+router.get('/:id/complaints/accused', authenticate, User.findComplaintsByAccused)
 
 /**
  * @swagger
@@ -193,7 +193,7 @@ router.get('/:id/complaints/accused', User.findComplaintsByAccused)
  *         description: Return the user calendar
  *             
  */
-router.get('/:id/calendar', User.findCalendarByOwner)
+router.get('/:id/calendar', authenticate, User.findCalendarByOwner)
 
 module.exports = router
 

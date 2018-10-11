@@ -1,14 +1,19 @@
 var request = require('supertest');
 var chai = require('chai');
 ObjectID = require('mongodb').ObjectID;
-var expect = chai.expect;
+const expect = chai.expect;
+const should = chai.should();
 const chaiHttp = require('chai-http');
 const userServer = require('./user.server');
+const betServer = require('../bet/bet.server');
+const complaintServer = require('../complaint/complaint.server');
+const liveServer = require('../live/live.server');
+const calendarServer = require('../calendar/calendar.server');
 const app = require('../app');
 
 describe('Tests for /user route', () => {
     let userauth = {
-        "_id": "5baedf4a16ca765081d6f17f",
+        "_id": "5baedf4a16ca765081d6f17d",
         "firstName": "john",
         "lastName": "doe",
         "email": "john@doe1.com",
@@ -22,36 +27,28 @@ describe('Tests for /user route', () => {
     const authUser = chai.request.agent(app);
 
     before(async () => {
-        userAuth = await userRepository.create(userauth);
+        userAuth = await userServer.create(userauth);
         const authRes = await authUser.post('/auth/login').send({ email: 'john@doe1.com', password: 'haha12346' });
         expect(authRes).to.have.cookie('access_token');
-        authRes.should.have.status(201);
+        authRes.should.have.status(200);
     });
 
     after(async () => {
-        await userServer.drop(); 
+        await userServer.drop();
+        await liveServer.drop();
+        await betServer.drop();
+        await complaintServer.drop();
+        await calendarServer.drop(); 
         await authUser.close();
     });
 
-    it('Test finAll with no Users', (done) => {
-        request(app)
-            .get('/user')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
     it('Test findOne with no users', (done) => {
-        request(app)
-            .get('/user/' + new ObjectID())
-            .expect(404)
-            .then((res) => {
+        authUser.get('/user/' + new ObjectID())
+            .end((err, res) => {
+                res.should.have.status(404);
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     let user1 = {
         "_id": "5baedf4a16ca765081d6f17f",
@@ -113,106 +110,89 @@ describe('Tests for /user route', () => {
     }
 
     it('Test create valid user', (done) => {
-        request(app)
-            .post('/user/')
+        authUser.post('/user/')
             .send(user1)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
+            .end((err, res) => {
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.have.property('firstName');
+                res.body.should.have.property('lastName');
+                res.body.should.have.property('email');
+                res.body.should.have.property('role');
+                res.body.should.have.property('banned');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test create valid accused', (done) => {
-        request(app)
-            .post('/user/')
+        authUser.post('/user/')
             .send(user2)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
+            .end((err, res) => {
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.have.property('firstName');
+                res.body.should.have.property('lastName');
+                res.body.should.have.property('email');
+                res.body.should.have.property('role');
+                res.body.should.have.property('banned');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test update user', (done) => {
-        request(app)
-            .put('/user/5baedf4a16ca765081d6f17f')
+        authUser.put('/user/5baedf4a16ca765081d6f17f')
             .send(modifications)
-            .expect(202)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body.lastName).equals('Modified');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
+            .end((err, res) => {
+                res.should.have.status(202);
+                res.should.be.json;
+                res.body.should.have.property('firstName');
+                res.body.should.have.property('lastName');
+                res.body.should.have.property('email');
+                res.body.should.have.property('role');
+                res.body.should.have.property('banned');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get lives by owner without lives', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/lives')
-            .expect(404)
-            .then((res) => {
+        authUser.get('/user/5baedf4a16ca765081d6f17f/lives')
+            .end((err, res) => {
+                res.should.have.status(404);
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get calendar by owner without calendar', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/calendar')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.get('/user/5baedf4a16ca765081d6f17f/calendar')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
 
     it('Test get complaints by author without complaints', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/complaints/author')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.get('/user/5baedf4a16ca765081d6f17f/complaints/author')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
 
     it('Test get complaints by accused without complaints', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
 
     it('Test get bets by owner without bets', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/bets')
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.get('/user/5baedf4a16ca765081d6f17f/bets')
+        .end((err, res) => {
+            res.should.have.status(404);
+            done();
+        });
+    });
 
     it('Test register live', (done) => {
         request(app)
@@ -281,207 +261,130 @@ describe('Tests for /user route', () => {
     }).timeout(0);
 
     it('Test get lives by owner with lives', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/lives')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('owner');
-                expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
-                expect(res.body[0]).to.have.property('title');
-                expect(res.body[0]).to.have.property('description');
+        authUser.get('/user/5baedf4a16ca765081d6f17f/lives')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body[0].should.have.property('owner');
+                res.body[0].owner.should.equal('5baedf4a16ca765081d6f17f');
+                res.body[0].should.have.property('title');
+                res.body[0].should.have.property('description');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get calendar by owner with calendar', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/calendar')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('owner');
-                expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
-                expect(res.body[0]).to.have.property('favourites');
-                expect(res.body[0].favourites).to.be.an('array');
-                expect(res.body[0].favourites).to.have.lengthOf(0);
+        authUser.get('/user/5baedf4a16ca765081d6f17f/calendar')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body[0].should.have.property('owner');
+                res.body[0].owner.should.equal('5baedf4a16ca765081d6f17f');
+                res.body[0].should.have.property('favourites');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get bets by owner with bets', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/bets')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('owner');
-                expect(res.body[0].owner).equals('5baedf4a16ca765081d6f17f');
-                expect(res.body[0]).to.have.property('live');
-                expect(res.body[0]).to.have.property('value');
+        authUser.get('/user/5baedf4a16ca765081d6f17f/bets')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body[0].should.have.property('owner');
+                res.body[0].owner.should.equal('5baedf4a16ca765081d6f17f');
+                res.body[0].should.have.property('live');
+                res.body[0].should.have.property('value');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get complaints by author with complaints', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f/complaints/author')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('author');
-                expect(res.body[0].author).equals('5baedf4a16ca765081d6f17f');
-                expect(res.body[0]).to.have.property('accused');
-                expect(res.body[0]).to.have.property('title');
-                expect(res.body[0]).to.have.property('description');
+        authUser.get('/user/5baedf4a16ca765081d6f17f/complaints/author')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body[0].should.have.property('author');
+                res.body[0].author.should.equal('5baedf4a16ca765081d6f17f');
+                res.body[0].should.have.property('accused');
+                res.body[0].should.have.property('title');
+                res.body[0].should.have.property('description');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test get complaints by accused with complaints', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('author');
-                expect(res.body[0].author).equals('5baedf4a16ca765081d6f17f');
-                expect(res.body[0]).to.have.property('accused');
-                expect(res.body[0].accused).equals('5baedf4a16ca765081d6f47f');
-                expect(res.body[0]).to.have.property('title');
-                expect(res.body[0]).to.have.property('description');
+        authUser.get('/user/5baedf4a16ca765081d6f47f/complaints/accused')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body[0].should.have.property('author');
+                res.body[0].author.should.equal('5baedf4a16ca765081d6f17f');
+                res.body[0].should.have.property('accused');
+                res.body[0].accused.should.equal('5baedf4a16ca765081d6f47f');
+                res.body[0].should.have.property('title');
+                res.body[0].should.have.property('description');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f47f')
-            .expect(202)
-            .then((res) => {
+        authUser.delete('/user/5baedf4a16ca765081d6f47f')
+            .end((err, res) => {
+                res.should.have.status(202);
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test findOne with user', (done) => {
-        request(app)
-            .get('/user/5baedf4a16ca765081d6f17f')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
+        authUser.get('/user/5baedf4a16ca765081d6f17f')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body.should.have.property('firstName');
+                res.body.should.have.property('lastName');
+                res.body.should.have.property('email');
+                res.body.should.have.property('role');
+                res.body.should.have.property('banned');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test create invalid user', (done) => {
-        request(app)
-            .post('/user/')
+        authUser.post('/user/')
             .send(invaliduser)
-            .expect(500)
-            .then((res) => {
+            .end((err, res) => {
+                res.should.have.status(500);
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test findAll with user', (done) => {
-        request(app)
-            .get('/user')
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.have.lengthOf(1);
-                expect(res.body[0]).to.have.property('_id');
-                expect(res.body[0]).to.have.property('firstName');
-                expect(res.body[0]).to.have.property('lastName');
-                expect(res.body[0]).to.have.property('email');
-                expect(res.body[0]).to.have.property('role');
-                expect(res.body[0]).to.have.property('banned');
+        authUser.get('/user')
+            .end((err, res) => {
+                res.should.be.json;
+                res.should.have.status(200);
+                res.body[0].should.have.property('_id');
+                res.body[0].should.have.property('firstName');
+                res.body[0].should.have.property('lastName');
+                res.body[0].should.have.property('email');
+                res.body[0].should.have.property('role');
+                res.body[0].should.have.property('banned');
                 done();
-            })
-            .catch(done);
-    }).timeout(0);
+            });
+    });
 
     it('Test DeleteById with not existing id', (done) => {
-        request(app)
-            .delete('/user/1')
-            .expect(500)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test Live DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/live/5baedf4a16ca765081d6f27f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test bet DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/bet/5baedf4a16ca765081d6f37f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test complaint DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/complaint/5baedf4a16ca765081d6f57f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.delete('/user/1')
+        .end((err, res) => {
+            res.should.have.status(500);
+            done();
+        });
+    });
 
     it('Test DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f17f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test calendar DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/calendar/5baedf4a16ca765081d6f67f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+        authUser.delete('/user/5baedf4a16ca765081d6f17f')
+        .end((err, res) => {
+            res.should.have.status(202);
+            done();
+        });
+    });
 });

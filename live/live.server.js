@@ -26,3 +26,7 @@ exports.update = async (id, data) => {
 exports.deleteById = async (id) => {
     await Live.findByIdAndDelete(id);
 };
+
+exports.drop = async () => {
+    await Live.collection.drop();
+};

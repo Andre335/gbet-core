@@ -30,3 +30,7 @@ exports.update = async (id, data) => {
 exports.deleteById = async (id) => {
     await Complaint.findByIdAndDelete(id);
 };
+
+exports.drop = async () => {
+    await Complaint.collection.drop();
+};

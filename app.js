@@ -17,13 +17,14 @@ var configs = require('./config/credentials.json');
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./swagger.json');
 
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();  
 const ENVIRON = process.env.ENVIRON || 'production';
 const PORT = configs.PORT || 3000;
 
 if (ENVIRON === 'production') {
-  mongoose.connect('mongodb://' + configs.DBUSER + ':' + configs.DBPASS + '@ds155292.mlab.com:55292/gbet', { useNewUrlParser: true });
+  mongoose.connect('mongodb://' + configs.DBUSER + ':' + configs.DBPASS + '@ds229373.mlab.com:29373/gbet', { useNewUrlParser: true });
   app.use(cors())
 } else {
   mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
@@ -31,6 +32,7 @@ if (ENVIRON === 'production') {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 var logDirectory = path.join(__dirname, 'log');
 

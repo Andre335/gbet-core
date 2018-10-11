@@ -26,3 +26,7 @@ exports.update = async (id, data) => {
 exports.deleteById = async (id) => {
     await Calendar.findByIdAndDelete(id);
 };
+
+exports.drop = async () => {
+    await Calendar.collection.drop();
+};

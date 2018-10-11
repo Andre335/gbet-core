@@ -30,3 +30,7 @@ exports.update = async (id, data) => {
 exports.deleteById = async (id) => {
     await Bet.findByIdAndDelete(id);
 };
+
+exports.drop = async () => {
+    await Bet.collection.drop();
+};
