@@ -22,3 +22,7 @@ exports.update = async (id, data) => {
 exports.deleteById = async (id) => {
     await User.findByIdAndDelete(id);
 };
+
+exports.drop = async () => {
+    await User.collection.drop();
+};

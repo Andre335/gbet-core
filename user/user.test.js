@@ -2,45 +2,36 @@ var request = require('supertest');
 var chai = require('chai');
 ObjectID = require('mongodb').ObjectID;
 var expect = chai.expect;
+const chaiHttp = require('chai-http');
+const userServer = require('./user.server');
 const app = require('../app');
 
 describe('Tests for /user route', () => {
-    // let userauth = {
-    //     "_id": "5baedf4a16ca765081d6f17f",
-    //     "firstName": "john",
-    //     "lastName": "doe",
-    //     "email": "john@doe1.com",
-    //     "role": "admin",
-    //     "banned": false,
-    //     "password": "haha12346"
-    // }
+    let userauth = {
+        "_id": "5baedf4a16ca765081d6f17f",
+        "firstName": "john",
+        "lastName": "doe",
+        "email": "john@doe1.com",
+        "role": "admin",
+        "banned": false,
+        "password": "haha12346"
+    }
 
-    // it('Test create valid user', (done) => {
-    //     request(app)
-    //         .post('/user/')
-    //         .send(userauth)
-    //         .expect(201)
-    //         .expect('Content-Type', /json/)
-    //         .then((res) => {
-    //             expect(res.body).to.have.property('firstName');
-    //             expect(res.body).to.have.property('lastName');
-    //             expect(res.body).to.have.property('email');
-    //             expect(res.body).to.have.property('role');
-    //             expect(res.body).to.have.property('banned');
-    //             done();
-    //         })
-    //         .catch(done);
-    // }).timeout(0);
+    chai.use(chaiHttp);
 
-    // it('Test authentication', (done) => {
-    //     request(app)
-    //         .post('/auth/login')
-    //         .expect(200)
-    //         .then((res) => {
-    //             done();
-    //         })
-    //         .catch(done);
-    // }).timeout(0);
+    const authUser = chai.request.agent(app);
+
+    before(async () => {
+        userAuth = await userRepository.create(userauth);
+        const authRes = await authUser.post('/auth/login').send({ email: 'john@doe1.com', password: 'haha12346' });
+        expect(authRes).to.have.cookie('access_token');
+        authRes.should.have.status(201);
+    });
+
+    after(async () => {
+        await userServer.drop(); 
+        await authUser.close();
+    });
 
     it('Test finAll with no Users', (done) => {
         request(app)
