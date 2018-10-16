@@ -26,14 +26,6 @@ exports.findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const userID = req.body.owner;
-        const userResult = await User.findOne(userID);
-        if (!userResult) return res.status(404).send({message: "User from Bet not found"});
-
-        const liveID = req.body.live;
-        const liveResult = await Live.findOne(liveID);
-        if (!liveResult) return res.status(404).send({message: "Live from Bet not found"});
-
         await Bet.create(req.body);
         res.status(201).json(req.body);
     } catch (err) {

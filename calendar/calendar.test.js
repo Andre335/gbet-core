@@ -2,9 +2,14 @@ var request = require('supertest');
 var chai = require('chai');
 ObjectID = require('mongodb').ObjectID;
 var expect = chai.expect;
+const calendarServer = require('./calendar.server');
 const app = require('../app');
 
 describe('Tests for /calendar route', () => {
+    after(async () => {
+        await calendarServer.drop();
+    });
+
     it('Test findAll with no calendars', (done) => {
         request(app)
             .get('/live')
@@ -13,7 +18,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findOne with no calendars', (done) => {
         request(app)
@@ -23,17 +28,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
-
-    let user1 = {
-        "_id": "5baedf4a16ca765081d6f17f",
-        "firstName": "john",
-        "lastName": "doe",
-        "email": "john@doe.com",
-        "role": "streammer",
-        "banned": false,
-        "password": "1234567"
-    }
+    });
 
     let calendar = {
         "_id": "5baedf4a16ca765081d6f27f",
@@ -41,54 +36,22 @@ describe('Tests for /calendar route', () => {
         "favourites": []
     }
 
-    let invalidcal = {
-        "owner": "5baedf4a16ca765081d6f17f"
-    }
-
     let modifications = {
         "favourites": ["5baedf4a16ca765081d6f37f"]
     }
 
-    it('Test create valid calendar without owner', (done) => {
-        request(app)
-            .post('/calendar/')
-            .send(calendar)
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test register user', (done) => {
-        request(app)
-            .post('/user/')
-            .send(user1)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
     it('Test create invalid calendar', (done) => {
         request(app)
             .post('/calendar/')
-            .send(invalidcal)
+            .send({})
             .expect(500)
             .then((res) => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
-    it('Test create valid calendar with owner', (done) => {
+    it('Test create valid calendar', (done) => {
         request(app)
             .post('/calendar/')
             .send(calendar)
@@ -102,7 +65,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findOne with success', (done) => {
         request(app)
@@ -117,7 +80,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findAll with calendar', (done) => {
         request(app)
@@ -135,7 +98,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test update calendar', (done) => {
         request(app)
@@ -152,17 +115,7 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
-
-    it('Test user DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f17f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+    });
 
     it('Test DeleteById with existing id', (done) => {
         request(app)
@@ -172,6 +125,6 @@ describe('Tests for /calendar route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
 });

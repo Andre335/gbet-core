@@ -25,9 +25,6 @@ exports.findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const userID = req.body.owner;
-        const userResult = await User.findOne(userID);
-        if (!userResult) return res.status(404).send({message: "User from calendar not found"});
         if (!req.body.favourites) return res.status(500).send({message: "Must have favourites"});
         await Calendar.create(req.body);
         res.status(201).json(req.body);

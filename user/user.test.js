@@ -208,7 +208,7 @@ describe('Tests for /user route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test register calendar', (done) => {
         request(app)
@@ -224,7 +224,7 @@ describe('Tests for /user route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test register bet', (done) => {
         request(app)
@@ -240,7 +240,7 @@ describe('Tests for /user route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test register complaint', (done) => {
         request(app)
@@ -258,7 +258,7 @@ describe('Tests for /user route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test get lives by owner with lives', (done) => {
         authUser.get('/user/5baedf4a16ca765081d6f17f/lives')

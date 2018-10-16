@@ -26,9 +26,6 @@ exports.findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const userID = req.body.owner;
-        const userResult = await User.findOne(userID);
-        if (!userResult) return res.status(404).send({message: "User from live not found"});
         await Live.create(req.body);
         res.status(201).json(req.body);
     } catch (err) {

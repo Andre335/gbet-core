@@ -28,14 +28,6 @@ exports.findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const authorID = req.body.author;
-        const authorResult = await User.findOne(authorID);
-        if (!authorResult) return res.status(404).send({message: "Author from complaint not found"});
-
-        const accusedID = req.body.accused;
-        const accusedResult = await User.findOne(accusedID);
-        if (!accusedResult) return res.status(404).send({message: "Accused from complaint not found"});
-
         await Complaint.create(req.body);
         res.status(201).json(req.body);
     } catch (err) {

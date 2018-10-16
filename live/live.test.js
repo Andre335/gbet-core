@@ -2,9 +2,16 @@ var request = require('supertest');
 var chai = require('chai');
 ObjectID = require('mongodb').ObjectID;
 var expect = chai.expect;
+const betServer = require('../bet/bet.server');
+const liveServer = require('./live.server');
 const app = require('../app');
 
 describe('Tests for /live route', () => {
+    after(async () => {
+        await liveServer.drop();
+        await betServer.drop();
+    });
+
     it('Test findAll with no Lives', (done) => {
         request(app)
             .get('/live')
@@ -13,7 +20,7 @@ describe('Tests for /live route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findOne with no Lives', (done) => {
         request(app)
@@ -23,7 +30,7 @@ describe('Tests for /live route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     let live1 = {
         "_id": "5baedf4a16ca765081d6f27f",
@@ -34,16 +41,6 @@ describe('Tests for /live route', () => {
 
     let liveinv = {
         "owner": "5baedf4a16ca765081d6f17f",
-    }
-
-    let user1 = {
-        "_id": "5baedf4a16ca765081d6f17f",
-        "firstName": "john",
-        "lastName": "doe",
-        "email": "john@doe.com",
-        "role": "streammer",
-        "banned": false,
-        "password": "1234567"
     }
 
     let modifications = {
@@ -57,35 +54,7 @@ describe('Tests for /live route', () => {
         "owner": "5baedf4a16ca765081d6f17f",
         "value": 5
     }
-
-    it('Test create valid live without owner', (done) => {
-        request(app)
-            .post('/live/')
-            .send(live1)
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test create valid user', (done) => {
-        request(app)
-            .post('/user/')
-            .send(user1)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
+    
     it('Test create invalid live', (done) => {
         request(app)
             .post('/live/')
@@ -95,7 +64,7 @@ describe('Tests for /live route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test create valid live with owner', (done) => {
         request(app)
@@ -216,26 +185,6 @@ describe('Tests for /live route', () => {
     it('Test DeleteById with existing id', (done) => {
         request(app)
             .delete('/live/5baedf4a16ca765081d6f27f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test bet DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/bet/5baedf4a16ca765081d6f37f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test user DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f17f')
             .expect(202)
             .then((res) => {
                 done();

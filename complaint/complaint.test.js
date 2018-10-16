@@ -2,9 +2,14 @@ var request = require('supertest');
 var chai = require('chai');
 ObjectID = require('mongodb').ObjectID;
 var expect = chai.expect;
+const complaintServer = require('../complaint/complaint.server');
 const app = require('../app');
 
 describe('Tests for /complaint route', () => {
+    after(async () => {
+        await complaintServer.drop();
+    });
+
     it('Test findAll with no complaints', (done) => {
         request(app)
             .get('/complaint')
@@ -13,7 +18,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findOne with no complaints', (done) => {
         request(app)
@@ -23,27 +28,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
-
-    let author = {
-        "_id": "5baedf4a16ca765081d6f17f",
-        "firstName": "john",
-        "lastName": "doe",
-        "email": "john@doe.com",
-        "role": "viewer",
-        "banned": false,
-        "password": "1234567"
-    }
-
-    let accused = {
-        "_id": "5baedf4a16ca765081d6f27f",
-        "firstName": "johnny",
-        "lastName": "doe",
-        "email": "john@doe.com",
-        "role": "streammer",
-        "banned": false,
-        "password": "1234568"
-    }
+    });
 
     let complaint = {
         "_id": "5baedf4a16ca765081d6f37f",
@@ -64,62 +49,6 @@ describe('Tests for /complaint route', () => {
         "description": "Modified"
     }
 
-    it('Test create valid complaint without author', (done) => {
-        request(app)
-            .post('/complaint/')
-            .send(complaint)
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test create valid author', (done) => {
-        request(app)
-            .post('/user/')
-            .send(author)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test create valid complaint without accused', (done) => {
-        request(app)
-            .post('/complaint/')
-            .send(complaint)
-            .expect(404)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test create valid accused', (done) => {
-        request(app)
-            .post('/user/')
-            .send(accused)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .then((res) => {
-                expect(res.body).to.have.property('firstName');
-                expect(res.body).to.have.property('lastName');
-                expect(res.body).to.have.property('email');
-                expect(res.body).to.have.property('role');
-                expect(res.body).to.have.property('banned');
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
     it('Test create invalid complaint', (done) => {
         request(app)
             .post('/complaint/')
@@ -129,9 +58,9 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
-    it('Test create valid complaint with author and accused', (done) => {
+    it('Test create valid complaint', (done) => {
         request(app)
             .post('/complaint/')
             .send(complaint)
@@ -145,7 +74,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findOne with success', (done) => {
         request(app)
@@ -160,7 +89,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test findAll with live', (done) => {
         request(app)
@@ -178,7 +107,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test update live', (done) => {
         request(app)
@@ -196,7 +125,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
     it('Test DeleteById with not existing id', (done) => {
         request(app)
@@ -206,27 +135,7 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
-
-    it('Test author DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f17f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
-
-    it('Test accused DeleteById with existing id', (done) => {
-        request(app)
-            .delete('/user/5baedf4a16ca765081d6f27f')
-            .expect(202)
-            .then((res) => {
-                done();
-            })
-            .catch(done);
-    }).timeout(0);
+    });
 
     it('Test DeleteById with existing id', (done) => {
         request(app)
@@ -236,6 +145,6 @@ describe('Tests for /complaint route', () => {
                 done();
             })
             .catch(done);
-    }).timeout(0);
+    });
 
 });

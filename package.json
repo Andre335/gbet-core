@@ -4,7 +4,7 @@
   "description": "Core do App GBet",
   "main": "app.js",
   "scripts": {
-    "test": "mocha ./*/*.test.js"
+    "test": "mocha ./*/*.test.js --timeout 0"
   },
   "repository": {
     "type": "git",
