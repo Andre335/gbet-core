@@ -15,6 +15,9 @@ var betSchema = new Schema({
     value: {
         type: Number,
         required: true
+    },
+    in_favor: {
+        type: Boolean
     }
 });
 
