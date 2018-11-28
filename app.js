@@ -14,14 +14,12 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var configs = require('./config/credentials.json');
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();  
 const ENVIRON = process.env.ENVIRON || 'production';
-const PORT = configs.PORT || 3000;
+const PORT = configs.PORT || 3001;
 
 if (ENVIRON === 'production') {
   mongoose.connect('mongodb://' + configs.DBUSER + ':' + configs.DBPASS + '@ds229373.mlab.com:29373/gbet', { useNewUrlParser: true });
@@ -53,11 +51,6 @@ app.use('/user', user);
 app.use('/streammer', streammer);
 app.use('/viewer', viewer);
 app.use('/auth', auth);
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// app.get('/', function (req, res) {
-//     res.send('Hello GBet!')
-// });
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT + ' and on ' + ENVIRON + ' enviroment'))
 

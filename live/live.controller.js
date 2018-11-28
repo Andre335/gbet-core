@@ -7,6 +7,9 @@ exports.findAll = async (req, res) => {
     try {
         const result = await Live.findAll();
         if (result.length == 0) return res.status(404).send({message: "Lives not found"})
+        for (var i = 0; i < result.length; i++) {
+            result[i].bets = await Bet.findByLive(result[i]["_id"]);
+        }
         res.status(200).json(result);
     } catch (err) {
         res.status(500).send({message: err.message});
@@ -18,6 +21,7 @@ exports.findOne = async (req, res) => {
         const liveID = req.params.id;
         const liveResult = await Live.findOne(liveID);
         if (!liveResult) return res.status(404).send({message: "Live not found"});
+        liveResult.bets = await Bet.findByLive(liveID);
         res.status(200).json(liveResult);
     } catch (err) {
         res.status(500).send({message: err.message});

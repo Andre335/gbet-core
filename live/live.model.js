@@ -20,7 +20,11 @@ var liveSchema = new Schema({
     date: {
         type: Date,
         required: false
-    }
+    },
+    bets: [{
+        type: [Schema.Types.ObjectId],
+        ref: 'Bet'
+    }]
 });
 
 var Live = mongoose.model('Live', liveSchema);

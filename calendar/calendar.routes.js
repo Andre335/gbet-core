@@ -101,6 +101,8 @@ router.delete('/:id', Calendar.deleteById)
  */
 router.put('/:id', Calendar.update)
 
+router.get('/owner/:id/favourites', Calendar.findFavouritesByOwner)
+
 module.exports = router
 
 /**

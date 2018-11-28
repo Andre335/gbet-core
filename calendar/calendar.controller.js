@@ -12,6 +12,26 @@ exports.findAll = async (req, res) => {
     }
 };
 
+exports.findByOwner = async (req, res) => {
+    try {
+        const ownerID = req.params.id;
+        const result = await Calendar.findByOwner(ownerID);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).send({message: err.message});
+    }
+}
+
+exports.findFavouritesByOwner = async (req, res) => {
+    try {
+        const ownerID = req.params.id;
+        const result = await Calendar.findByOwner(ownerID);
+        res.status(200).json(result[0].favourites);
+    } catch (err) {
+        res.status(500).send({message: err.message});
+    }
+}
+
 exports.findOne = async (req, res) => {
     try {
         const calendarID = req.params.id;

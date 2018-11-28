@@ -11,6 +11,29 @@ content-type: application/json
 
 ###
 
+POST http://localhost:3001/bet HTTP/1.1
+Content-Type: application/json
+
+{
+    "owner": "5bfddd2e9b2606180d0929aa",
+    "live": "5bfe0b2dcdefd12aca70e4ad",
+    "value": 5,
+    "in_favor": true
+}
+
+###
+
+POST http://localhost:3001/live HTTP/1.1
+Content-Type: application/json
+
+{
+    "owner": "5bfddd2e9b2606180d0929aa",
+    "title": "test live 2",
+    "description": "test desc 2"
+}
+
+###
+
 POST http://localhost:3000/viewer HTTP/1.1
 content-type: application/json
 
@@ -31,11 +54,11 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/user HTTP/1.1
+GET http://localhost:3001/live HTTP/1.1
 
 ###
 
-GET http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
+GET http://localhost:3001/live/5bfe0b2dcdefd12aca70e4ad HTTP/1.1
 
 ###
 
@@ -59,4 +82,27 @@ Content-Type: application/json
 {
     "email": "john@doe.com",
     "password": "123456"
+}
+
+###
+
+GET http://localhost:3000/calendar/owner/5bfddd2e9b2606180d0929aa/favourites HTTP/1.1
+
+###
+
+POST http://localhost:3000/calendar HTTP/1.1
+Content-Type: application/json
+
+{
+    "owner": "5bfddd2e9b2606180d0929aa",
+    "favourites": ["5bfdde3b36b7e7185a606109"]
+}
+
+###
+
+PUT http://localhost:3001/calendar/5bfe0b2dcdefd12aca70e4ad HTTP/1.1
+Content-Type: application/json
+
+{
+    "date": "Wed, 21 Oct 2015 18:27:50 GMT"
 }
