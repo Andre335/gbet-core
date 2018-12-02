@@ -9,7 +9,7 @@ exports.login = async function(req, res) {
     
     const user = await User.findOne({email});
 
-    if(!user){
+    if(user===null || !user){
         return res.status(404).send({error: 'User not found'});
     }
 
@@ -20,8 +20,8 @@ exports.login = async function(req, res) {
     jwt.sign({id: user.id}, authConfig.secret , { expiresIn: '2h' }, (error, TOKEN) => {
         if (error) return res.status(500).json({ error: 'ERROR SIGNING THE TOKEN' });
         res.cookie('access_token', TOKEN, {
-          maxAge: new Date(Date.now() + 1000000),
-          httpOnly: false,
+            maxAge: new Date(Date.now() + 1000000),
+            httpOnly: false,
         });
         return res.status(200).json({ message: 'User logged with success' });
     });
@@ -29,8 +29,8 @@ exports.login = async function(req, res) {
 
 exports.logOut = (req, res, next) => {
     res.clearCookie('access_token', req.cookies.access_token, {
-      maxAge: new Date(Date.now() + 10000000),
-      httpOnly: false,
+        maxAge: new Date(Date.now() + 10000000),
+        httpOnly: false,
     });
     return res.status(200).json({ message: 'Cookie deleted' });
 };
