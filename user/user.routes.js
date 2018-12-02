@@ -63,7 +63,7 @@ router.get('/:id', authenticate, User.findOne)
  *            $ref: '#/definitions/user '
  *             
  */
-router.post('/', authenticate, User.create)
+router.post('/', User.create)
 
 /**
  * @swagger
