@@ -19,7 +19,8 @@ var liveSchema = new Schema({
     },
     date: {
         type: Date,
-        required: false
+        required: false,
+        default: Date.now
     },
     bets: [{
         type: [Schema.Types.ObjectId],

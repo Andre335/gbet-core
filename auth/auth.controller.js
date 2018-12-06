@@ -23,7 +23,7 @@ exports.login = async function(req, res) {
             maxAge: new Date(Date.now() + 1000000),
             httpOnly: false,
         });
-        return res.status(200).json({ message: 'User logged with success' });
+        return res.status(200).json({user_id: user.id, user_role: user.role});
     });
 }
 

@@ -2,6 +2,9 @@ const express = require('express')
 var Live = require('./live.controller')
 var router = express.Router()
 
+const auth = require('../config/auth.js');
+const authenticate = auth.auth;
+
 /**
  * @swagger
  * /live:

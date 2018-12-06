@@ -3,11 +3,13 @@ const authConfig = require('../config/auth.json');
 const User = require('../user/user.model')
 
 exports.auth = (req, res, next) =>{
+    const token = req.cookies.access_token;
+    //console.log(token);
     if (!req.cookies.access_token) {
         return res.status(401).json({ error: 'Unauthorized, request token.' });
       }
-      const token = req.cookies.access_token;
-      jwt.verify(token, authConfig.secret , (error, userData) => {
+
+      jwt.verify(token, authConfig.secret, (error, userData) => {
         if (error) return res.status(422).json({ error });
 
         req.userId = userData.id;

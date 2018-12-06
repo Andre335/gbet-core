@@ -66,7 +66,7 @@ DELETE http://localhost:3000/viewer/5bbc3f6ed86a8c508b5f1f91 HTTP/1.1
 
 ###
 
-POST http://localhost:3000/auth/login HTTP/1.1
+POST http://localhost:3001/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -76,12 +76,12 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/auth/logout HTTP/1.1
+POST http://localhost:3001/auth/logout HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "john@doe.com",
-    "password": "123456"
+    "email": "andre335@gmail.com",
+    "password": "Andre95153565"
 }
 
 ###
