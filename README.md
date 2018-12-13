@@ -12,8 +12,8 @@ run tests using: npm test
 Running Server:
 run the server using: node app.js
 
-Acess the application on localhost:3000
+Acess the application on localhost:3001
 
-Documentation: On every '.route.js' file
+Documentation: On every '*.route.js' file
 
 ** Configure a secret for authentication on '/config/auth.json'
