@@ -8,10 +8,11 @@ var calendarSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    favourites: {
+    favourites: [{
         type: [Schema.Types.ObjectId],
-        required: true
-    }
+        required: true,
+        ref: 'Live'
+    }]
 });
 
 var Calendar = mongoose.model('Calendar', calendarSchema);
